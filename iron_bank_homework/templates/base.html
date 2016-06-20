@@ -1,0 +1,17 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Faux Bank</title>
+    <link rel="stylesheet" href='{% static "main/css/bootstrap.css" %}'media="screen" title="bootstrap" charset="utf-8">
+  </head>
+  <body>
+    <div class="container">
+      {% block content %}
+          No content provided
+      {% endblock %}
+    </div>
+
+  </body>
+</html>
