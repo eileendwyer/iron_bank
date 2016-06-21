@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from bank_app.views import IndexView
+from bank_app.views import IndexView, CreateUserView
+from django.contrib.auth.decorators import login_required
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', IndexView.as_view(), name="index_view"),
     url('^', include('django.contrib.auth.urls')),
+    url(r'^create_user/$', CreateUserView.as_view(), name="create_user"),
+    url(r'accounts/profile/$', login_required(ProfileView.as_view()), name="profile_view"),
 ]
