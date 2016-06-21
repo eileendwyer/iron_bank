@@ -33,8 +33,9 @@ class ProfileView(ListView):
 
 class TransactionDetailView(DetailView):
     model = Transaction
-    template_name = "transaction_detail.html"
-    
+    template_name = "transaction_detail_view.html"
+
     def get_context_data(self, **kwargs):
         context = super(TransactionDetailView, self).get_context_data(**kwargs)
-        context['']
+        context['transaction detail'] = Transaction.objects.filter(id=self.kwargs['trans'])
+        return context
