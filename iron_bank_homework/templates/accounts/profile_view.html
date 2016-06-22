@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class = "container">
+  <h3> Your account balance: ${{balance}}</h3>
+  <br>
+  <h3>Transaction Detail: </h3>
+  <a href="{% url 'transaction_detail_view' object.id %}"></a>
+
+    <h3>{{object.user}}</h3>
+    <h3>{{object.user_id}}</h3>
+    <h3>{{object.amount }}</h3>
+    <h3>{{object.transaction_type}}</h3>
+    <h3>{{object.created}}</h3>
+    <h3>{{object.description}}</h3>
+
+
+
+</div>
+
+{% endblock %}

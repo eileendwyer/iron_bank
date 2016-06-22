@@ -9,7 +9,9 @@ class IndexView(TemplateView):
     template_name = "index.html"
     model = Transaction
 
-class AccountView(ListView):
+class ProfileView(ListView):
+    model = Transaction
+    template_name = "profile_view"
 
     def account_balance(self):
         self.balance = 0
@@ -39,7 +41,7 @@ class CreateNewUser(CreateView):
 
 class TransactionDetailView(DetailView):
     model = Transaction
-    template_name = "transaction_detail_view.html"
+    template_name = "profile_view.html"
 
     def get_queryset(self):
         return Transaction.objects.filter(id=self.request.user)

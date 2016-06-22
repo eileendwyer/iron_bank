@@ -10,9 +10,15 @@
 
 <div class="container">
       <li role ="presentation" class="active"><a href="{% url 'login' %}?next=/">Login</a></h3>
-      <li role ="presentation" class="active"><a href="{% url 'logout' %}?next=/">Logout</a></h3>
+
       <li role ="presentation" class="active"><a href="{% url 'create_new_user' %}">Create New User</a>
 
+        {% if request.user.is_authenticated %}
+        <li role ="presentation" class="active"><a href="{% url 'account' %}">User Account</a></h3>
+        <li role ="presentation" class="active"><a href="{% url 'logout' %}?next=/">Logout</a></h3>
+
+
+        {% endif %}
 
       {% block content %}
           No content provided
