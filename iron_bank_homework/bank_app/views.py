@@ -28,8 +28,8 @@ class ProfileView(ListView):
         return self.balance
 
         def get_context_data(self):
-            context = super().get_context_data
             balance = account_balance(self)
+            context = super().get_context_data
             context['balance'] = balance
             return context
 
