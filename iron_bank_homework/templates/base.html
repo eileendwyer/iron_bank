@@ -7,12 +7,13 @@
     <link rel="stylesheet" href='{% static "main/css/bootstrap.css" %}'media="screen" title="bootstrap" charset="utf-8">
   </head>
   <body>
-    <br>
-    <div class="container
-      <a href="{%url 'index_view'%}">Transactions: Last 30 Days</a
-      <a href="{%url 'chirp_create_view'%}">Create New Transaction</a>
-      <a href="{%url 'login'%}">Login</a>
-      <a href="{%url 'logout'%}?next=/">Logout</a>
+
+<div class="container">
+      <li role ="presentation" class="active"><a href="{% url 'login' %}?next=/">Login</a></h3>
+      <li role ="presentation" class="active"><a href="{% url 'logout' %}?next=/">Logout</a></h3>
+      <li role ="presentation" class="active"><a href="{% url 'create_new_user' %}">Create New User</a>
+
+
       {% block content %}
           No content provided
       {% endblock %}

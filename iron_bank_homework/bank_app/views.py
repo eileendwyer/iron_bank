@@ -5,27 +5,37 @@ from django.contrib.auth.forms import UserCreationForm
 from bank_app.models import Transaction
 import datetime
 
-class IndexView(ListView):
+class IndexView(TemplateView):
     template_name = "index.html"
     model = Transaction
 
-    def get_queryset(self):
-        return Transaction.objects.filter(user=self.request.user).filter(created__lte=datetime.datetime.today(),
-        created__gt=datetime.datetime.today()-datetime.timedelta(days=30))
+class AccountView(ListView):
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data
-        balance = 0
+    def account_balance(self):
+        self.balance = 0
         transactions = Transaction.objects.filter(user=self.request.user)
         for transaction in transactions:
             print(transaction.transaction_type)
             if transaction.transaction_type == 'DB':
-                if balance >= transaction.amount:
-                    balance -= transaction.amount
-            elif transaction.transaction_type == 'CR':
-                balance += transaction.amount
-        context['balance'] = balance
-        return context
+                if transaction.amount > self.balance:
+                    raise ValidationError("Insufficient funds.")
+                if self.balance >= transaction.amount:
+                    self.balance -= transaction.amount
+                elif transaction.transaction_type == 'CR':
+                    self.balance += transaction.amount
+        return self.balance
+
+        def get_context_data(self):
+            context = super().get_context_data
+            balance = account_balance(self)
+            context['balance'] = balance
+            return context
+
+class CreateNewUser(CreateView):
+    model = User
+    form_class = UserCreationForm
+    success_url = "/"
+
 
 class TransactionDetailView(DetailView):
     model = Transaction
@@ -35,9 +45,8 @@ class TransactionDetailView(DetailView):
         return Transaction.objects.filter(id=self.request.user)
 
 class CreateNewTransaction(CreateView):
-    model = User
-    form_class = UserCreationForm
-    success_url = "/"
+    model = Transaction
+    fields = ["amount", "transaction_type", "description"]
 
     def form_valid(self, form):
         transaction = form.save(commit=False)

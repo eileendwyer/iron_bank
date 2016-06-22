@@ -15,5 +15,8 @@ class Transaction(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField(max_length=50)
 
+    class Meta:
+        ordering = ["-created"]
+
     def __str__(self):
         return self.description
