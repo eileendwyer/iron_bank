@@ -11,27 +11,24 @@ class IndexView(TemplateView):
 
 class ProfileView(ListView):
     model = Transaction
-    template_name = "profile_view"
+    template_name = "accounts/profile_view.html"
 
     def account_balance(self):
-        self.balance = 0
-        transactions = Transaction.objects.filter(user=self.request.user)
+        balance = 0
+        transactions = Transaction.objects.all()
         for transaction in transactions:
-            print(transaction.transaction_type)
+            if transaction.transaction_type == 'CR':
+                balance += transaction.amount
             if transaction.transaction_type == 'DB':
-                if transaction.amount > self.balance:
-                    raise ValidationError("Insufficient funds.")
-                if self.balance >= transaction.amount:
-                    self.balance -= transaction.amount
-                elif transaction.transaction_type == 'CR':
-                    self.balance += transaction.amount
-        return self.balance
+                balance -= transaction.amount
+        return balance
 
-        def get_context_data(self):
-            balance = account_balance(self)
-            context = super().get_context_data
-            context['balance'] = balance
-            return context
+    def get_context_data(self):
+        balance = self.account_balance()
+        context = super().get_context_data()
+        context['balance'] = balance
+        return context
+
 
 class CreateNewUser(CreateView):
     model = User
